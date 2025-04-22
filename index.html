@@ -2333,15 +2333,16 @@
         const body = document.body;
         
         // Check if dark mode preference exists in local storage
-        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const savedDarkMode = localStorage.getItem('darkMode');
         
-        // Set initial dark mode state
-        if (savedDarkMode === 'true' || (savedDarkMode === null && prefersDarkMode)) {
+        // Set initial dark mode state - only use dark mode if explicitly set to true in localStorage
+        if (savedDarkMode === 'true') {
             body.classList.add('dark-mode');
             themeToggle.querySelector('span').textContent = '☀️';
         } else {
             themeToggle.querySelector('span').textContent = '🌙';
+            // Ensure we're in light mode by removing dark-mode class
+            body.classList.remove('dark-mode');
         }
         
         themeToggle.addEventListener('click', () => {
